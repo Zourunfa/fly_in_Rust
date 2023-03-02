@@ -23,7 +23,9 @@ use std::{collections::HashMap,fs::read_to_string};
  */
 fn main(){
   let source = read_to_string("./readme.md").unwrap();
+  println!("{}",source);
   let mut files = HashMap::new();
+  
   files.insert("这是我插入的一段话",source.clone());
   files.insert("这是我插入的第二段话",source);
 }
