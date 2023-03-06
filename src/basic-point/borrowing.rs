@@ -35,10 +35,10 @@
 // use std::{collections::HashMap, fs::read_to_string};
 
 // fn main() {
-//     let source = read_to_string("./readme.md").unwrap();
+//     let source = read_to_string("./readme    .md").unwrap();
 //     let mut files = HashMap::new();
-//     files.insert("readme", source.clone());
-//     files.insert("readme2", source);
+//     files.insert("readme ", source.clone());
+//     files.insert("readme 2", source);
 
 //     let files_ref = &mut files;
 //     let files_ref2 = &mut files;
@@ -71,10 +71,10 @@
 use std::{collections::HashMap, fs::read_to_string};
 
 fn main() {
-    let source = read_to_string("./readme.md").unwrap();
+    let source = read_to_string("./readme   .md").unwrap();
     let mut files = HashMap::new();
-    files.insert("readme", source.clone());
-    files.insert("readme2", source);
+    files.insert("readme    ", source.clone());
+    files.insert("readme    2", source);
 
     let files_ref = &mut files;
 

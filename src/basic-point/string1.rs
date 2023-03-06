@@ -1,10 +1,53 @@
 // ，一个字符串字面量"Hi!"不是String的实例
 
-fn study_string(){
-  print_type_of(&"H!");
-  println(&String::new())
-}
+// fn study_string(){
+//   print_type_of(&"H!");
+//   println(&String::new())
+// }
 
-fn print_type_of<T>(_:&T){
-  println!("Type is :{}",std::any::type_name::<T>())
-}
+// fn print_type_of<T>(_:&T){
+//   println!("Type is :{}",std::any::type_name::<T>())
+// }
+
+/**
+* 字符串字面量本质是一个字符串切片的引用，这意味着实际上它们是字符串数据的子字符串指针
+* 。rust编译器会将我们所有的字符串字面量存放在某个地方，
+然后将它们的值替换为指针，这就让rust优化掉了重复字符串的问题。
+你可以通过代码来验证这种优化现象，将下面代码中的字符串复制n次，然后查看下编译打包出来的可执行文件体积：
+
+*/
+// fn main() {
+//     print("TESTING:12345678901234567890123456789012345678901234567890TESTING:12345678901234567890123456789012345678901234567890TESTING:12345678901234567890123456789012345678901234567890TESTING:12345678901234567890123456789012345678901234567890TESTING:12345678901234567890123456789012345678901234567890TESTING:12345678901234567890123456789012345678901234567890TESTING:12345678901234567890123456789012345678901234567890");
+// }
+
+// fn print(msg: &str) {
+//     println!("{}", msg);
+// }
+
+
+/**
+ * String可以被改变，支持截取、缩小、增长等操作，当然这也会带来额外的成本
+ */
+
+// let my_real_string = "string iteratral".to_owned()
+// // 底层实际上是这样的：
+
+// String::from_utf8_unchecked(self.as_bytes().to_owned()) //self就是rust中的this
+// 这就是为什么要在学习string前先要了解ownership，字符串字面量只是一个引用，没有所有权，
+// 想变成有所有权的string，需要进行格式的转化。是不是这意味着我们要每次都使用.to_owned()呢？
+// 既是也不是，在介绍Traits和generics（泛型）之前你可以理解成“是的”
+
+
+/**
+ * 
+ * .to_string()、.into()、String::from()、format!()
+ */
+
+// 上面列出的这些都可以将&str变成String，下面的我们将会给那些熟悉上述概念的人解释下为什么这些方法不正确
+
+/**
+ * 为什么不用.to_string()
+ * something.to_string()会将something转化为一个string，经常用来实现Display trait的一部分。你会看到很多文章推荐使用.to_string()、另有很多文章不推荐。推荐中的细微差异在于你对编译器帮助所希望的程度，当你的程序变得庞大，特别是开始使用generics（泛型）时，你会不可避免的需要做类型转换。一个最初是&str的变量可能会转换成其它类型，如果新值仍然实现Display那么就会有一个.to_string()方法，编译器也不会有什么异议。另一方面，.to_owned()会将引用的变量变成拥有的，通常是通过克隆实现。将一个引用的非string的变量转化为拥有所有权的string，编译器会报错。如果你觉的述差异可以接受，那么用.to_owned()还是.to_string()都无妨
+
+
+ */
