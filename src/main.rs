@@ -1,14 +1,13 @@
-// mod basic-point;
-// pub use crate::add::add_fn;
+mod my_trait;
+pub use my_trait::Summary;
+pub use my_trait::Tweet;
+fn main() {
+    let tweet = Tweet {
+        username: String::from("af"),
+        content: String::from("你好嗎"),
+        reply: false,
+        retweet: false,
+    };
 
-fn main(){
-    print_type_of(&"Hi!");
-    print_type_of(&String::new())
-  }
-  
-  fn print_type_of<T>(_:&T){
-    println!("Type is :{}",std::any::type_name::<T>())
-  }
-  
-
-  
+    println!("1 new tweet: {}", tweet.summarize())
+}
