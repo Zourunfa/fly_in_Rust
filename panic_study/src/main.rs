@@ -1,3 +1,6 @@
+use core::{panic, panicking::panic};
+use std::{fs::File, io::ErrorKind};
+
 fn main() {
     // /**
     //  * Rust的错误处理
@@ -29,9 +32,55 @@ fn main() {
     //  */
     // panic!("crash and born")
 
-    let v = vec![1, 2, 3];
-    v[99];
+    // let v = vec![1, 2, 3];
+    // v[99];
 
     // panic!可能出现在自己的代码中，也可能出现我们依赖的代码
     // 通过对panic的调用定位问题
+
+    // Result枚举
+    // enum Result<T, E> {
+    //     Ok(T),
+    //     Err(E),
+    // }
+    // T 操作成功的情况下，OK变体里返回的数据类型
+    // E 操作失败的情况下， Err变体里返回的错误的类型
+
+    // 处理Result的一种方式 match表达式
+
+    // let f = File::open("hellow.txt");
+
+    // match f {
+    //     Ok(file) => file,
+    //     // 打开这个文件失败之后 对错误的类型再次match
+    //     Err(error) => match error.kind() {
+    //         // 尝试打开的文件不存在 如果不存在就创建 match 创建是否成功
+    //         ErrorKind::NotFound => match File::create("hello.txt") {
+    //             Ok(fc) => fc,
+    //             Err(e) => panic!("Error create file"),
+    //         },
+    //         oe => panic!("Error  opening the file:{:?}", oe),
+    //     },
+    // };
+
+    // unwrap: match表达式的一个快捷方法
+    // 如果Result的结果是Ok 返回Ok里面的值
+    // 如果Result的结果是Err 调用panic！宏
+
+    // let f = File::open("hello.txt");
+
+    // let f = match f {
+    //     Ok(file) => file,
+    //     Err(error) => panic!("Error opening file {:?}", error),
+    // };
+
+    // 可以使用下面代码替换上面的
+
+    let f = File::open("hello.txt").unwrap();
+    // 但是unwrap的错误信息是不能自定义的
+
+    // expect:和unwrap类似 但可以指定错误信息
+    let f = File::open("hello.txt").expect("无法打开错误文件");
 }
+
+// oe就是othererror
