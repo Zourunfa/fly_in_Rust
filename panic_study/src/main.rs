@@ -76,11 +76,53 @@ fn main() {
 
     // 可以使用下面代码替换上面的
 
-    let f = File::open("hello.txt").unwrap();
-    // 但是unwrap的错误信息是不能自定义的
+    // let f = File::open("hello.txt").unwrap();
+    // // 但是unwrap的错误信息是不能自定义的
 
-    // expect:和unwrap类似 但可以指定错误信息
-    let f = File::open("hello.txt").expect("无法打开错误文件");
+    // // expect:和unwrap类似 但可以指定错误信息
+    // let f = File::open("hello.txt").expect("无法打开错误文件");
+
+    // 什么时候调用panic
+    // 总体原则
+    // 在定义一个可能失败的函数的时候 优先考虑返回Result
+    // 否则使用panic
+
+    // 1.有时候你比编译器掌握更多的信息,你可以确定Result就是OK，:unwrap
+
+    // 你知道这个ip绝对是对的，绝对不会恐慌，你就可以使用unwrap
+    let home::IpAddr = "127.0.0.1".parse().unwrap();
+
+    // 2.当代码最终可能处于损坏状态的时候，最好使用panic
+    //  损坏状态 ：某些假设 保证 阅读 或不可变性被打破
+    // 非法的值或空缺的值被传入代码 不能预期发生
+
+    // 场景建议调用你的代码传入无意义的参数值，panic
+    // 调用外部不可靠代码 ，返回非法状态，无法修复：panic！
+    // 如果失败是可预期的 最好是Result
+    // 验证值的合法性 panic!
 }
 
 // oe就是othererror
+
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100,got {}", value);
+        }
+        Guess { value }
+    }
+    pub fn value(&self) -> i32 {
+        self.value
+    }
+}
+
+/*
+这段代码定义了一个名为 Guess 的结构体，其中包含一个 i32 类型的字段 value。
+
+结构体还定义了一个 new 函数，该函数接受一个 i32 类型的参数 value，并根据一些条件创建一个 Guess 结构体实例。如果传递的 value 值小于 1 或大于 100，则会出现 panic，打印出错信息并停止程序执行。否则，new 函数会使用传递的 value 值创建一个新的 Guess 实例，并返回该实例。
+
+结构体还定义了一个名为 value 的方法，该方法返回存储在 Guess 实例中的 value 字段的值。value 方法为不可变引用(&self)方法，因此它不允许对 Guess 实例进行修改。 */
