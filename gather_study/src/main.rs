@@ -60,14 +60,11 @@ fn main() {
     //   Text(String)
     // }
 
-    // fn main(){
     //   let row = vec![
     //     SpredsheetCell::Int(3),
     //     SpredsheetCell::Text(String::from("blue")),
     //     SpredsheetCell::Float(10.12)
     //   ];
-
-    // }
 
     // HashMap<K,V>
     // 泛型K,V(key,value)
@@ -153,11 +150,40 @@ fn main() {
     // K不存在
     // 1.添加一对新的值
 
-    let mut scores = HashMap::new();
+    // let mut scores = HashMap::new();
+
+    // // 替换
+    // scores.insert(String::from("Blue"), 10);
+    // scores.insert(String::from("Blue"), 50);
+
+    // 只在K不对应任何值的情况下，插入V
+    // entry方法 检查指定的K是否对应一个V
+
+    // Entry的or_insert()方法
+    // 返回:
+    // 如果K存在，返回到对应的V的一个可变引用
+    // 如果K不存在，将方法参数作为K的新值插进去，返回这个值的可变引用
+
+    // let mut scores = HashMap::new();
 
     // 替换
-    scores.insert(String::from("Blue"), 10);
-    scores.insert(String::from("Blue"), 50);
+    // scores.insert(String::from("Blue"), 10);
+    // scores.entry(String::from("Yellow")).or_insert(50);
+    // scores.entry(String::from("Blue")).or_insert(50);
+
+    // let text = "hello world wonderful world";
+
+    // let mut map = HashMap::new();
+
+    // for word in text.split_whitespace() {
+    //     let count = map.entry(word).or_insert(0);
+
+    //     *count += 1;
+    // }
+
+    // println!("{:#?}", map);
+
+
 
     
 }
