@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 rand = "0.8.5"
 [workspace]
-members = ["clousures_study","gather_study","life_cycle", "fanX_study","trait_study","path_study","panic_study","Result_enum"]
+members = ["iterrator_study","clousures_study","gather_study","life_cycle", "fanX_study","trait_study","path_study","panic_study","Result_enum"]

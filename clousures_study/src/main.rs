@@ -20,9 +20,39 @@ fn main() {
 
     // 再使用必须是string类型
 
-    let simulated_user = 10;
-    let simulated_num = 7;
-    generate_workout(simulated_user, simulated_num)
+    // let simulated_user = 10;
+    // let simulated_num = 7;
+    // generate_workout(simulated_user, simulated_num)
+
+    // // 闭包可以访问定义它的作用域内的变量，普通函数不能
+    // let x = 4;
+    // let equal_to_x = |z| z === x;
+    // fn equal_to_x(z:i32)->bool{
+    //   // 是函数的下面就报语法错误了 函数不能捕获他们的环境 会产生内存开销
+    //   z==x
+    // }
+
+    // let   y =4;
+    // assert!((equal_to_x(y)));
+
+    // 闭包从所在环境捕获值的方式
+    // 1.取得所有权: FnOnece
+    // 2.可变借用: FnMut
+    // 3.不可变借用:Fn
+
+    // 创建闭包时，通过闭包对环境值的使用Rust推断出具体使用哪个Trait：
+    // 所有的闭包都实现了FnOnce
+    // 没有移动捕获变量的实现了FnMut
+    // 无需可变访问捕获变量的闭包实现了FN
+
+    // move关键字
+    // 在参数列表前使用move关键字，可以强制闭包取得它使用的环境值的所有权
+    // 当将闭包圈地给新线程以移动数据使其贵新线程所有时，此技术最有用
+
+    let x = vec![1, 2, 3];
+    // 使用move关键字的时候 x的所有权就移到了 闭包里面
+    let equal_to_x = move |z: Vec<i32>| z == x;
+    //  在上面这句话后面如果还想使用x 就报错
 }
 
 // fn simulated_expensive_calculation(intensity: u32) -> u32 {
@@ -112,63 +142,62 @@ fn main() {
 // FnMut
 // FnOnce
 
-struct Cache<T>
-where
-    T: Fn(u32) -> u32,
-{
-    calculation: T,
-    value: Option<u32>,
-}
+// struct Cache<T>
+// where
+//     T: Fn(u32) -> u32,
+// {
+//     calculation: T,
+//     value: Option<u32>,
+// }
 
-impl<T> Cache<T>
-where
-    T: Fn(u32) -> u32,
-{
-    fn new(calculation: T) -> Cache<T> {
-        Cache {
-            calculation,
-            value: None,
-        }
-    }
+// impl<T> Cache<T>
+// where
+//     T: Fn(u32) -> u32,
+// {
+//     fn new(calculation: T) -> Cache<T> {
+//         Cache {
+//             calculation,
+//             value: None,
+//         }
+//     }
 
-    fn value(&mut self, arg: u32) -> u32 {
-        match self.value {
-            Some(v) => v,
-            None => {
-                let v = (self.calculation)(arg);
-                self.value = Some(v);
-                v
-            }
-        }
-    }
-}
+//     fn value(&mut self, arg: u32) -> u32 {
+//         match self.value {
+//             Some(v) => v,
+//             None => {
+//                 let v = (self.calculation)(arg);
+//                 self.value = Some(v);
+//                 v
+//             }
+//         }
+//     }
+// }
 
-fn generate_workout(intensity: u32, random_number: u32) {
-    let mut expensive_res = Cache::new(|num| {
-        println!("caculation slowly ....");
-        thread::sleep(Duration::from_secs(2));
-        num
-    });
-    if intensity < 25 {
-        println!("Today, do {} pushups", expensive_res.value(intensity));
+// fn generate_workout(intensity: u32, random_number: u32) {
+//     let mut expensive_res = Cache::new(|num| {
+//         println!("caculation slowly ....");
+//         thread::sleep(Duration::from_secs(2));
+//         num
+//     });
+//     if intensity < 25 {
+//         println!("Today, do {} pushups", expensive_res.value(intensity));
 
-        println!("Next,do {} situps", expensive_res.value(intensity));
-    } else {
-        if random_number == 3 {
-            println!("Take a break tody! Remenber to stay hydrated");
-        } else {
-            println!("Today, run for  {} mini", expensive_res.value(intensity));
-        }
-    }
-}
+//         println!("Next,do {} situps", expensive_res.value(intensity));
+//     } else {
+//         if random_number == 3 {
+//             println!("Take a break tody! Remenber to stay hydrated");
+//         } else {
+//             println!("Today, run for  {} mini", expensive_res.value(intensity));
+//         }
+//     }
+// }
 
+// #[test]
+// fn call_with_different_values() {
+//     let mut c = Cache::new(|a| a);
 
-#[test]
-fn call_with_different_values() {
-    let mut c = Cache::new(|a| a);
+//     let v1 = c.value(1);
+//     let v2 = c.value(2);
 
-    let v1 = c.value(1);
-    let v2 = c.value(2);
-
-    assert_eq!(v2, 2);
-}
+//     assert_eq!(v2, 2);
+// }
