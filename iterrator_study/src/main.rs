@@ -37,9 +37,56 @@ fn main() {
     // map 方法 接收一个闭包，闭包作用于每个元素
     // 产生一个新的迭代器
 }
+// filter方法：
+// 接收一个闭包
+// 这个闭包在遍历迭代器的每个元素时，返回bool类型
+// 如果闭包返回true，当前元素将会包含在filter产生的迭代器中
+// 如果闭包返回false
 
 #[cfg(test)]
 mod tests {
+    #[derive(PartialEq, Debug)]
+    struct Shoe {
+        size: u32,
+        style: String,
+    }
+
+    fn shoes_in_my_size(shoes: Vec<Shoe>, show_size: u32) -> Vec<Shoe> {
+        shoes.into_iter().filter(|x| x.size == show_size).collect()
+    }
+
+    #[test]
+    fn filter_bt_size() {
+        let shoes = vec![
+            Shoe {
+                size: 10,
+                style: String::from("nike"),
+            },
+            Shoe {
+                size: 13,
+                style: String::from("anta"),
+            },
+            Shoe {
+                size: 10,
+                style: String::from("snile"),
+            },
+        ];
+        let in_my_size = shoes_in_my_size(shoes, 10);
+        assert_eq!(
+            in_my_size,
+            vec![
+                Shoe {
+                    size: 10,
+                    style: String::from("nike"),
+                },
+                Shoe {
+                    size: 10,
+                    style: String::from("snile"),
+                },
+            ]
+        )
+    }
+
     #[test]
 
     fn iterator_demo() {
