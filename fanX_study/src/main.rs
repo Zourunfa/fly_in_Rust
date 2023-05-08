@@ -23,7 +23,6 @@ struct Point<T, U> {
 
 // 枚举泛型
 // 主要是用在变体中
-
 enum Option<T> {
     Some(T),
     None,

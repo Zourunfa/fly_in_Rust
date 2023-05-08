@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "Rc_study"
+version = "0.1.0"
+
+[[package]]
 name = "Result_enum"
 version = "0.1.0"
 
