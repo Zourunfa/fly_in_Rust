@@ -1,3 +1,4 @@
+use crate::List::{Cons, Nil};
 fn main() {
     // println!("Hello, world!");
     // 指针 一个变量在内存中包含的一个地址。（指向其它数据）
@@ -59,10 +60,37 @@ fn main() {
     // 的确切大小
     // 或者你有大量数据，想移交所有权，但需要确保在操作时数据不会被复制
     // 第三种场景 使用某个值时，你只关心它是否实现了特定的trait，而不关心它的具体类型
-    let b = Box::new(5);
-    // 当b走到下面}下面之后会释放stack的指针和heap上面的数据
-    println!("b={}", b);
+    // let b = Box::new(5);
+    // // 当b走到下面}下面之后会释放stack的指针和heap上面的数据
+    // println!("b={}", b);
 
     // 使用Box赋能递归类型
     // 在编译的时候，Rust需要知道一个类型所占的空间大小
+    // rust无法计算出递归类型在编译时的大小
+
+    // 但Box类型能解决
+
+    // Conslist
+
+    let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
 }
+
+// 因为Box<T>是一个指针，Rust知道它需要多少空间，因为
+// 指针的大小不会基于它指向的数据的大小变化而变化
+
+// Box<T>只提供了 间接 存储和heap内存分配的功能
+// 适用于间接的存储
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+// Rust 如何确定非递归类型的大小
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+}
+
+// 上面枚举类型每个时刻最多一个变体，所以取最大的变体的空间就行
