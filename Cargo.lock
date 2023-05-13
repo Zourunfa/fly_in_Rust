@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "Deref_Drop_study"
+version = "0.1.0"
+
+[[package]]
 name = "Rc_study"
 version = "0.1.0"
 
