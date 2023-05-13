@@ -47,4 +47,42 @@ fn main() {
 
     // 如果没有deref trait * 只能对 &x常规解引用 ，有之后就可以
     // 对智能指针进行解引用
+
+
+    // 函数和方法的隐式解引用转化 （ Deref Coercion )
+
+    // 隐式解引用转化是为函数和方法提供一种便携特性
+    // 假设T实现了Deref Trait 
+    //  Deref Coercion 可以把T的引用转化为T经过Deref操作后生成的引用
+    // 当把某类型的引用传递给函数或方法时，但它的类型与定义的参数类型不匹配
+    // 这个时候Deref Coercion就会自动发生
+    // 编译器会对deref进行一系列的调用 来把它转为所需的参数类型
+    // 上面步骤在编译时完成没有额外的性能开销
+
+
+
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
+    // &  &MyBox<String>
+    // deref &String  //string的内部也实现了deref trait
+    // deref &str
+
+    hello("Rust");
+
+
+
+    // 解引用与可变性
+    // 可使用DerefMut trait 重载可变引用的* 运算符
+    // 在类型和trait 在下列三种情况发生时  Rust会执行deref coercion:
+    // 当T:Deref<Target=U> 允许&T转换为&U时
+    
 }
+
+
+//  Deref Coercion 
+
+fn hello(name:&str){
+  println!("hello, {}",name);
+}
+
+
